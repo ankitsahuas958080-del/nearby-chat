@@ -1,20 +1,46 @@
 const socket = io();
 
-const nameInput = document.getElementById("name");
+const nameInput =
+document.getElementById("name");
 
-const messageInput = document.getElementById("message");
+const messageInput =
+document.getElementById("message");
 
-const messages = document.getElementById("messages");
+const messages =
+document.getElementById("messages");
 
-const onlineCount = document.getElementById("online-count");
+const onlineCount =
+document.getElementById("online-count");
+
+/* SAVE NAME */
+
+if(localStorage.getItem("chat-name")){
+
+    nameInput.value =
+    localStorage.getItem("chat-name");
+
+}
+
+/* SAVE WHILE TYPING */
+
+nameInput.addEventListener("input", ()=>{
+
+    localStorage.setItem(
+        "chat-name",
+        nameInput.value
+    );
+
+});
 
 /* SEND MESSAGE */
 
 function sendMessage(){
 
-    const name = nameInput.value.trim();
+    const name =
+    nameInput.value.trim();
 
-    const message = messageInput.value.trim();
+    const message =
+    messageInput.value.trim();
 
     if(name === "" || message === ""){
         return;
@@ -22,8 +48,9 @@ function sendMessage(){
 
     socket.emit("send-message", {
 
-        name,
-        message
+        name:name,
+
+        message:message
 
     });
 
@@ -33,38 +60,46 @@ function sendMessage(){
 
 /* RECEIVE MESSAGE */
 
-socket.on("receive-message", (data) => {
+socket.on("receive-message", (data)=>{
 
-    const div = document.createElement("div");
+    const div =
+    document.createElement("div");
 
-    div.classList.add("message");
+    div.classList.add("message-box");
+
+    const time =
+    new Date().toLocaleTimeString();
 
     div.innerHTML = `
 
-        <strong>${data.name}</strong><br>
+        <b>${data.name}</b><br>
 
         ${data.message}
+
+        <div class="time">
+            ${time}
+        </div>
 
     `;
 
     messages.appendChild(div);
 
-    messages.scrollTop = messages.scrollHeight;
+    messages.scrollTop =
+    messages.scrollHeight;
 
 });
 
 /* ONLINE USERS */
 
-socket.on("online-users", (count) => {
+socket.on("online-users", (count)=>{
 
-    onlineCount.innerText =
-    `🟢 Online Users: ${count}`;
+    onlineCount.innerText = count;
 
 });
 
 /* ENTER KEY */
 
-messageInput.addEventListener("keypress", (e) => {
+messageInput.addEventListener("keypress", (e)=>{
 
     if(e.key === "Enter"){
 

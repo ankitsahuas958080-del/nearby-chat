@@ -5,7 +5,8 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
     <title>Nearby Chat</title>
 
@@ -22,19 +23,33 @@
         <div class="top">
 
             <h1>💬 Nearby Chat</h1>
-            <h3 id="online-count">
-🟢 Online Users: 0
-</h3>
+
+            <div class="online">
+
+                🟢 Online Users:
+                <span id="online-count">0</span>
+
+            </div>
 
         </div>
 
         <div id="messages"></div>
 
+        <div class="name-box">
+
+            <input
+            type="text"
+            id="name"
+            placeholder="Your Name">
+
+        </div>
+
         <div class="bottom">
 
-            <input type="text" id="name" placeholder="Your Name">
-
-            <input type="text" id="message" placeholder="Type Message">
+            <input
+            type="text"
+            id="message"
+            placeholder="Type Message">
 
             <button onclick="sendMessage()">
                 Send

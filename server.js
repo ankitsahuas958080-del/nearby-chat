@@ -6,13 +6,15 @@ const http = require("http").createServer(app);
 
 const io = require("socket.io")(http);
 
+/* PUBLIC FOLDER */
+
 app.use(express.static("public"));
 
 /* ONLINE USERS */
 
 let onlineUsers = 0;
 
-/* CONNECTION */
+/* SOCKET CONNECTION */
 
 io.on("connection", (socket) => {
 
@@ -22,7 +24,7 @@ io.on("connection", (socket) => {
 
     io.emit("online-users", onlineUsers);
 
-    /* MESSAGE */
+    /* RECEIVE MESSAGE */
 
     socket.on("send-message", (data) => {
 
@@ -44,10 +46,10 @@ io.on("connection", (socket) => {
 
 });
 
-/* SERVER */
+/* SERVER START */
 
 http.listen(process.env.PORT || 3000, "0.0.0.0", () => {
 
-    console.log("Running");
+    console.log("Server Running");
 
 });
