@@ -1,70 +1,74 @@
 const socket = io();
 
-const nameInput =
-document.getElementById("name");
+const nameInput = document.getElementById("name");
+const messageInput = document.getElementById("message");
+const messages = document.getElementById("messages");
+const onlineCount = document.getElementById("online-count");
 
-const savedName =
-localStorage.getItem("chat-name");
+/* NAME SAVE */
 
-if(savedName){
-
-    nameInput.value = savedName;
-
+if(localStorage.getItem("chatName")){
+    nameInput.value = localStorage.getItem("chatName");
 }
+
+nameInput.addEventListener("input", () => {
+
+    localStorage.setItem("chatName", nameInput.value);
+
+});
+
+/* SEND MESSAGE */
 
 function sendMessage(){
 
-    const name =
-    document.getElementById("name").value;
-
-    const message =
-    document.getElementById("message").value;
+    const name = nameInput.value.trim();
+    const message = messageInput.value.trim();
 
     if(name === "" || message === ""){
         return;
     }
 
-    localStorage.setItem(
-        "chat-name",
-        name
-    );
-
     socket.emit("send-message", {
-
-        name:name,
-
-        message:message
-
+        name,
+        message
     });
 
-    document.getElementById("message").value = "";
+    messageInput.value = "";
 
 }
 
-socket.on("receive-message", (data)=>{
+/* RECEIVE MESSAGE */
 
-    const messages =
-    document.getElementById("messages");
+socket.on("receive-message", (data) => {
 
-    const div =
-    document.createElement("div");
+    const div = document.createElement("div");
 
     div.classList.add("message");
 
-    const time =
-    new Date().toLocaleTimeString();
-
-    div.innerHTML =
-
-    "<b>" + data.name + "</b><br>" +
-
-    data.message +
-
-    "<br><small>" + time + "</small>";
+    div.innerHTML = `<strong>${data.name}:</strong> ${data.message}`;
 
     messages.appendChild(div);
 
-    messages.scrollTop =
-    messages.scrollHeight;
+    messages.scrollTop = messages.scrollHeight;
+
+});
+
+/* ONLINE USERS */
+
+socket.on("online-users", (count) => {
+
+    onlineCount.innerText = `🟢 Online Users: ${count}`;
+
+});
+
+/* ENTER PRESS */
+
+messageInput.addEventListener("keypress", (e) => {
+
+    if(e.key === "Enter"){
+
+        sendMessage();
+
+    }
 
 });

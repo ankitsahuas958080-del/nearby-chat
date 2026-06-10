@@ -1,48 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-    content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nearby Chat</title>
 
     <link rel="stylesheet" href="style.css">
 
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
 
-<div class="box">
+    <div class="chat-container">
 
-    <h1>💬 Nearby Chat</h1>
+        <div class="top">
 
-    <div id="messages"></div>
+            <h1>💬 Nearby Chat</h1>
 
-    <div class="bottom">
+            <h3 id="online-count">🟢 Online Users: 0</h3>
 
-        <input
-        type="text"
-        id="name"
-        placeholder="Name">
+        </div>
 
-        <input
-        type="text"
-        id="message"
-        placeholder="Type Message">
+        <div id="messages"></div>
 
-        <button onclick="sendMessage()">
-            Send
-        </button>
+        <div class="bottom">
+
+            <input type="text" id="name" placeholder="Your Name">
+
+            <input type="text" id="message" placeholder="Type Message">
+
+            <button onclick="sendMessage()">
+                Send
+            </button>
+
+        </div>
 
     </div>
 
-</div>
-
-<script src="/socket.io/socket.io.js"></script>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
 </html>
