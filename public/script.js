@@ -72,3 +72,10 @@ messageInput.addEventListener("keypress", (e) => {
     }
 
 });
+const savedName = localStorage.getItem("chatName");
+
+if(savedName){
+
+    socket.emit("join", savedName);
+
+}

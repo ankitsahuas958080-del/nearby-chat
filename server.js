@@ -12,7 +12,7 @@ app.use(express.static("public"));
 
 /* ONLINE USERS */
 
-let onlineUsers = 0;
+let users = new Set();
 
 /* SOCKET CONNECTION */
 
@@ -20,11 +20,19 @@ io.on("connection", (socket) => {
 
     console.log("User Connected");
 
-    onlineUsers++;
+    /* USER JOIN */
 
-    io.emit("online-users", onlineUsers);
+    socket.on("join", (name) => {
 
-    /* RECEIVE MESSAGE */
+        socket.username = name;
+
+        users.add(name);
+
+        io.emit("online-users", users.size);
+
+    });
+
+    /* SEND MESSAGE */
 
     socket.on("send-message", (data) => {
 
@@ -38,9 +46,9 @@ io.on("connection", (socket) => {
 
         console.log("User Disconnected");
 
-        onlineUsers--;
+        users.delete(socket.username);
 
-        io.emit("online-users", onlineUsers);
+        io.emit("online-users", users.size);
 
     });
 
