@@ -6,33 +6,23 @@ const http = require("http").createServer(app);
 
 const io = require("socket.io")(http);
 
-/* PUBLIC FOLDER */
-
 app.use(express.static("public"));
 
 /* ONLINE USERS */
 
-let users = new Set();
+let onlineUsers = 0;
 
-/* SOCKET CONNECTION */
+/* CONNECTION */
 
 io.on("connection", (socket) => {
 
     console.log("User Connected");
 
-    /* USER JOIN */
+    onlineUsers++;
 
-    socket.on("join", (name) => {
+    io.emit("online-users", onlineUsers);
 
-        socket.username = name;
-
-        users.add(name);
-
-        io.emit("online-users", users.size);
-
-    });
-
-    /* SEND MESSAGE */
+    /* MESSAGE */
 
     socket.on("send-message", (data) => {
 
@@ -46,9 +36,9 @@ io.on("connection", (socket) => {
 
         console.log("User Disconnected");
 
-        users.delete(socket.username);
+        onlineUsers--;
 
-        io.emit("online-users", users.size);
+        io.emit("online-users", onlineUsers);
 
     });
 
@@ -58,6 +48,6 @@ io.on("connection", (socket) => {
 
 http.listen(process.env.PORT || 3000, "0.0.0.0", () => {
 
-    console.log("Server Running");
+    console.log("Running");
 
 });

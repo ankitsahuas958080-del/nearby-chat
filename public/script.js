@@ -1,27 +1,19 @@
 const socket = io();
 
 const nameInput = document.getElementById("name");
+
 const messageInput = document.getElementById("message");
+
 const messages = document.getElementById("messages");
+
 const onlineCount = document.getElementById("online-count");
-
-/* NAME SAVE */
-
-if(localStorage.getItem("chatName")){
-    nameInput.value = localStorage.getItem("chatName");
-}
-
-nameInput.addEventListener("input", () => {
-
-    localStorage.setItem("chatName", nameInput.value);
-
-});
 
 /* SEND MESSAGE */
 
 function sendMessage(){
 
     const name = nameInput.value.trim();
+
     const message = messageInput.value.trim();
 
     if(name === "" || message === ""){
@@ -29,8 +21,10 @@ function sendMessage(){
     }
 
     socket.emit("send-message", {
+
         name,
         message
+
     });
 
     messageInput.value = "";
@@ -45,7 +39,13 @@ socket.on("receive-message", (data) => {
 
     div.classList.add("message");
 
-    div.innerHTML = `<strong>${data.name}:</strong> ${data.message}`;
+    div.innerHTML = `
+
+        <strong>${data.name}</strong><br>
+
+        ${data.message}
+
+    `;
 
     messages.appendChild(div);
 
@@ -57,11 +57,12 @@ socket.on("receive-message", (data) => {
 
 socket.on("online-users", (count) => {
 
-    onlineCount.innerText = `🟢 Online Users: ${count}`;
+    onlineCount.innerText =
+    `🟢 Online Users: ${count}`;
 
 });
 
-/* ENTER PRESS */
+/* ENTER KEY */
 
 messageInput.addEventListener("keypress", (e) => {
 
@@ -72,10 +73,3 @@ messageInput.addEventListener("keypress", (e) => {
     }
 
 });
-const savedName = localStorage.getItem("chatName");
-
-if(savedName){
-
-    socket.emit("join", savedName);
-
-}
