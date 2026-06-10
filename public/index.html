@@ -2,54 +2,55 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-    content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nearby Chat</title>
 
     <link rel="stylesheet" href="style.css">
-
-    <script src="/socket.io/socket.io.js"></script>
-
 </head>
 
 <body>
 
     <div class="chat-container">
 
+        <!-- TOP -->
+
         <div class="top">
 
             <h1>💬 Nearby Chat</h1>
 
             <div class="online">
-
                 🟢 Online Users:
                 <span id="online-count">0</span>
-
             </div>
 
         </div>
 
-        <div id="messages"></div>
+        <!-- NAME -->
 
         <div class="name-box">
 
             <input
-            type="text"
-            id="name"
-            placeholder="Your Name">
+                type="text"
+                id="name"
+                placeholder="Enter Your Name"
+            >
 
         </div>
+
+        <!-- MESSAGES -->
+
+        <div id="messages"></div>
+
+        <!-- BOTTOM -->
 
         <div class="bottom">
 
             <input
-            type="text"
-            id="message"
-            placeholder="Type Message">
+                type="text"
+                id="message"
+                placeholder="Type Message"
+            >
 
             <button onclick="sendMessage()">
                 Send
@@ -58,6 +59,8 @@
         </div>
 
     </div>
+
+    <script src="/socket.io/socket.io.js"></script>
 
     <script src="script.js"></script>
 
