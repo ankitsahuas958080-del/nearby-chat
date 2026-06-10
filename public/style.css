@@ -1,0 +1,176 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+
+    width:100%;
+    height:100%;
+
+    background:#0b141a;
+
+    font-family:Arial,sans-serif;
+
+    overflow:hidden;
+}
+
+/* MAIN CHAT */
+
+.box{
+
+    width:100vw;
+
+    height:100dvh;
+
+    background:#111b21;
+
+    display:flex;
+
+    flex-direction:column;
+}
+
+/* PC */
+
+@media(min-width:740px){
+
+    body{
+
+        display:flex;
+
+        justify-content:center;
+
+        align-items:center;
+    }
+
+    .box{
+
+        width:800px;
+
+        height:700px;
+
+        border-radius:12px;
+
+        overflow:hidden;
+    }
+
+}
+
+/* HEADER */
+
+h1{
+
+    background:#202c33;
+
+    color:white;
+
+    text-align:center;
+
+    padding:16px;
+
+    font-size:22px;
+
+    flex-shrink:0;
+}
+
+/* MESSAGES */
+
+#messages{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:12px;
+
+    background:#0b141a;
+}
+
+/* SINGLE MESSAGE */
+
+.message{
+
+    background:#202c33;
+
+    color:white;
+
+    padding:10px 14px;
+
+    margin-bottom:10px;
+
+    border-radius:12px;
+
+    width:fit-content;
+
+    max-width:80%;
+
+    word-wrap:break-word;
+
+    font-size:14px;
+}
+
+/* BOTTOM BAR */
+
+.bottom{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    padding:8px;
+
+    background:#202c33;
+
+    flex-shrink:0;
+}
+
+/* NAME */
+
+#name{
+
+    width:65px;
+}
+
+/* MESSAGE */
+
+#message{
+
+    flex:1;
+}
+
+/* INPUTS */
+
+input{
+
+    padding:10px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:20px;
+
+    font-size:13px;
+}
+
+/* BUTTON */
+
+button{
+
+    padding:10px 14px;
+
+    border:none;
+
+    border-radius:20px;
+
+    background:#00a884;
+
+    color:white;
+
+    font-size:13px;
+
+    cursor:pointer;
+}
