@@ -5,24 +5,16 @@ const input = document.getElementById("message");
 const nameInput = document.getElementById("name");
 const onlineUsers = document.getElementById("onlineUsers");
 
-let myName = "";
-
 function sendMessage() {
 
-    const message = input.value;
+    const message = input.value.trim();
+    const name = nameInput.value.trim();
 
-    if(message.trim() === "") return;
-
-    myName = nameInput.value;
-
-    if(myName.trim() === "") {
-        alert("Enter your name");
-        return;
-    }
+    if(message === "" || name === "") return;
 
     const data = {
         id: Date.now(),
-        name: myName,
+        name: name,
         message: message,
         time: new Date().toLocaleTimeString(),
         sender: socket.id
@@ -37,19 +29,18 @@ socket.on("receive-message", (data) => {
 
     const div = document.createElement("div");
 
-    // apna message right side
     if(data.sender === socket.id){
-        div.classList.add("my-message");
+        div.className = "my-message";
     } else {
-        div.classList.add("other-message");
+        div.className = "other-message";
     }
 
     div.id = data.id;
 
     let editButton = "";
 
-    // sirf apne message pe edit button
     if(data.sender === socket.id){
+
         editButton = `
             <button onclick="editMessage('${data.id}')">
                 Edit
@@ -73,15 +64,13 @@ function editMessage(id){
 
     const box = document.getElementById(id);
 
-    const textElement = box.querySelector(".text");
+    const text = box.querySelector(".text");
 
-    const oldText = textElement.innerText;
-
-    const newText = prompt("Edit message", oldText);
+    const newText = prompt("Edit message", text.innerText);
 
     if(newText){
 
-        textElement.innerText = newText;
+        text.innerText = newText;
 
         socket.emit("edit-message", {
             id: id,
@@ -110,10 +99,15 @@ socket.on("online-users", (count)=>{
 
 });
 
-input.addEventListener("keypress", function(e){
+input.addEventListener("keypress", (e)=>{
 
     if(e.key === "Enter"){
         sendMessage();
     }
 
 });
+if(data.sender === socket.id){
+    div.className = "my-message";
+} else {
+    div.className = "other-message";
+}
