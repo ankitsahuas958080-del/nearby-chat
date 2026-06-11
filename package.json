@@ -14,5 +14,13 @@
   "dependencies": {
     "express": "^5.2.1",
     "socket.io": "^4.8.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ankitsahuas958080-del/nearby-chat.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ankitsahuas958080-del/nearby-chat/issues"
+  },
+  "homepage": "https://github.com/ankitsahuas958080-del/nearby-chat#readme"
 }

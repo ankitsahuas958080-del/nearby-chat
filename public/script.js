@@ -1,5 +1,5 @@
 // ==========================
-// SOCKET CONNECTION
+// SOCKET
 // ==========================
 
 const socket = io();
@@ -8,38 +8,68 @@ const socket = io();
 // ELEMENTS
 // ==========================
 
-const setupScreen = document.getElementById("setupScreen");
-const chatScreen = document.getElementById("chatScreen");
+const setupScreen =
+document.getElementById("setupScreen");
 
-const usernameInput = document.getElementById("username");
-const startBtn = document.getElementById("startBtn");
+const chatScreen =
+document.getElementById("chatScreen");
 
-const avatar = document.getElementById("avatar");
-const myProfile = document.getElementById("myProfile");
+const usernameInput =
+document.getElementById("username");
 
-const colors = document.querySelectorAll(".color");
+const startBtn =
+document.getElementById("startBtn");
 
-const messageInput = document.getElementById("messageInput");
-const sendBtn = document.getElementById("sendBtn");
+const avatar =
+document.getElementById("avatar");
 
-const chatArea = document.getElementById("chatArea");
+const myProfile =
+document.getElementById("myProfile");
 
-const onlineCount = document.getElementById("onlineCount");
+const colors =
+document.querySelectorAll(".color");
 
-const typingBox = document.getElementById("typingBox");
+const messageInput =
+document.getElementById("messageInput");
 
-const menuBtn = document.getElementById("menuBtn");
-const menuOverlay = document.getElementById("menuOverlay");
-const closeMenu = document.getElementById("closeMenu");
+const sendBtn =
+document.getElementById("sendBtn");
 
-const themeBtn = document.getElementById("themeBtn");
+const chatArea =
+document.getElementById("chatArea");
 
-const replyBox = document.getElementById("replyBox");
-const closeReply = document.getElementById("closeReply");
+const onlineCount =
+document.getElementById("onlineCount");
 
-const editOverlay = document.getElementById("editOverlay");
+const typingBox =
+document.getElementById("typingBox");
 
-const imageBtn = document.querySelector(".image-btn");
+const menuBtn =
+document.getElementById("menuBtn");
+
+const menuOverlay =
+document.getElementById("menuOverlay");
+
+const closeMenu =
+document.getElementById("closeMenu");
+
+const themeBtn =
+document.getElementById("themeBtn");
+
+const replyBox =
+document.getElementById("replyBox");
+
+const closeReply =
+document.getElementById("closeReply");
+
+const imageBtn =
+document.querySelector(".image-btn");
+
+const editOverlay =
+document.getElementById("editOverlay");
+
+const editInput =
+document.getElementById("editInput");
 
 // ==========================
 // USER DATA
@@ -50,6 +80,8 @@ let userColor = "#7c5cff";
 
 let replyTo = null;
 
+let currentEditText = null;
+
 // ==========================
 // COLOR SELECT
 // ==========================
@@ -58,15 +90,19 @@ colors.forEach(color => {
 
   color.addEventListener("click", () => {
 
-    colors.forEach(c => c.classList.remove("active"));
+    colors.forEach(c => {
+      c.classList.remove("active");
+    });
 
     color.classList.add("active");
 
     userColor = color.dataset.color;
 
-    avatar.style.background = userColor;
+    avatar.style.background =
+    userColor;
 
-    myProfile.style.background = userColor;
+    myProfile.style.background =
+    userColor;
 
   });
 
@@ -76,13 +112,17 @@ colors.forEach(color => {
 // USERNAME INPUT
 // ==========================
 
-usernameInput.addEventListener("input", () => {
+usernameInput.addEventListener(
+"input",
+() => {
 
-  let value = usernameInput.value.trim();
+  const value =
+  usernameInput.value.trim();
 
   if(value.length > 0){
 
-    avatar.innerText = value[0].toUpperCase();
+    avatar.innerText =
+    value[0].toUpperCase();
 
   }else{
 
@@ -96,9 +136,12 @@ usernameInput.addEventListener("input", () => {
 // START CHAT
 // ==========================
 
-startBtn.addEventListener("click", () => {
+startBtn.addEventListener(
+"click",
+() => {
 
-  username = usernameInput.value.trim();
+  username =
+  usernameInput.value.trim();
 
   if(username === ""){
 
@@ -110,26 +153,41 @@ startBtn.addEventListener("click", () => {
 
   // SAVE LOCAL
 
-  localStorage.setItem("chatName", username);
-  localStorage.setItem("chatColor", userColor);
+  localStorage.setItem(
+    "chatName",
+    username
+  );
+
+  localStorage.setItem(
+    "chatColor",
+    userColor
+  );
 
   // PROFILE
 
-  myProfile.innerText = username[0].toUpperCase();
+  myProfile.innerText =
+  username[0].toUpperCase();
 
-  myProfile.style.background = userColor;
+  myProfile.style.background =
+  userColor;
 
   // SCREEN SWITCH
 
-  setupScreen.classList.remove("active");
+  setupScreen.classList.remove(
+    "active"
+  );
 
-  chatScreen.classList.add("active");
+  chatScreen.classList.add(
+    "active"
+  );
 
-  // JOIN SOCKET
+  // SOCKET JOIN
 
   socket.emit("join-user", {
+
     name: username,
     color: userColor
+
   });
 
 });
@@ -138,28 +196,42 @@ startBtn.addEventListener("click", () => {
 // AUTO LOGIN
 // ==========================
 
-window.addEventListener("load", () => {
+window.addEventListener(
+"load",
+() => {
 
-  const savedName = localStorage.getItem("chatName");
-  const savedColor = localStorage.getItem("chatColor");
+  const savedName =
+  localStorage.getItem("chatName");
+
+  const savedColor =
+  localStorage.getItem("chatColor");
 
   if(savedName){
 
     username = savedName;
 
-    userColor = savedColor || "#7c5cff";
+    userColor =
+    savedColor || "#7c5cff";
 
-    myProfile.innerText = username[0].toUpperCase();
+    myProfile.innerText =
+    username[0].toUpperCase();
 
-    myProfile.style.background = userColor;
+    myProfile.style.background =
+    userColor;
 
-    setupScreen.classList.remove("active");
+    setupScreen.classList.remove(
+      "active"
+    );
 
-    chatScreen.classList.add("active");
+    chatScreen.classList.add(
+      "active"
+    );
 
     socket.emit("join-user", {
+
       name: username,
       color: userColor
+
     });
 
   }
@@ -172,11 +244,12 @@ window.addEventListener("load", () => {
 
 function sendMessage(){
 
-  const text = messageInput.value.trim();
+  const text =
+  messageInput.value.trim();
 
   if(text === "") return;
 
-  const messageData = {
+  const data = {
 
     name: username,
     color: userColor,
@@ -186,27 +259,37 @@ function sendMessage(){
 
   };
 
-  socket.emit("send-message", messageData);
+  socket.emit(
+    "send-message",
+    data
+  );
 
   messageInput.value = "";
 
   replyTo = null;
 
-  replyBox.classList.add("hidden");
+  replyBox.classList.add(
+    "hidden"
+  );
 
 }
 
 // ==========================
-// BUTTON SEND
+// SEND BUTTON
 // ==========================
 
-sendBtn.addEventListener("click", sendMessage);
+sendBtn.addEventListener(
+"click",
+sendMessage
+);
 
 // ==========================
 // ENTER SEND
 // ==========================
 
-messageInput.addEventListener("keypress", (e) => {
+messageInput.addEventListener(
+"keypress",
+(e) => {
 
   if(e.key === "Enter"){
 
@@ -220,7 +303,9 @@ messageInput.addEventListener("keypress", (e) => {
 // RECEIVE MESSAGE
 // ==========================
 
-socket.on("receive-message", (data) => {
+socket.on(
+"receive-message",
+(data) => {
 
   createMessage(data);
 
@@ -232,7 +317,8 @@ socket.on("receive-message", (data) => {
 
 function createMessage(data){
 
-  const message = document.createElement("div");
+  const message =
+  document.createElement("div");
 
   message.classList.add("message");
 
@@ -265,7 +351,7 @@ function createMessage(data){
     message.innerHTML = `
 
       <div class="msg-avatar"
-        style="background:${data.color}">
+      style="background:${data.color}">
         ${data.name[0].toUpperCase()}
       </div>
 
@@ -275,11 +361,23 @@ function createMessage(data){
 
         ${replyHTML}
 
-        <p>${data.text}</p>
+        <p class="message-text">
+          ${data.text}
+        </p>
+
+        <div class="msg-actions">
+
+          <button class="reply-btn">
+            Reply
+          </button>
+
+        </div>
 
         <div class="msg-bottom">
 
-          <span>${data.time}</span>
+          <span>
+            ${data.time}
+          </span>
 
           <div class="reactions">
             😂
@@ -301,13 +399,31 @@ function createMessage(data){
 
         ${replyHTML}
 
-        <p>${data.text}</p>
+        <p class="message-text">
+          ${data.text}
+        </p>
+
+        <div class="msg-actions">
+
+          <button class="edit-btn">
+            Edit
+          </button>
+
+          <button class="delete-btn">
+            Delete
+          </button>
+
+        </div>
 
         <div class="msg-bottom">
 
-          <span>${data.time}</span>
+          <span>
+            ${data.time}
+          </span>
 
-          <span class="ticks">✓✓</span>
+          <span class="ticks">
+            ✓✓
+          </span>
 
         </div>
 
@@ -317,66 +433,93 @@ function createMessage(data){
 
   }
 
-  // LONG PRESS MENU
-
-  message.addEventListener("contextmenu", (e) => {
-
-    e.preventDefault();
-
-    showMessageOptions(data.text);
-
-  });
-
-  // DOUBLE CLICK REPLY
-
-  message.addEventListener("dblclick", () => {
-
-    replyTo = data.text;
-
-    replyBox.classList.remove("hidden");
-
-    document.querySelector(".reply-text").innerText =
-      "↩ Replying to " + data.name;
-
-  });
+  // APPEND
 
   chatArea.appendChild(message);
 
+  // TYPING BOX BOTTOM
+
+  chatArea.appendChild(typingBox);
+
   // AUTO SCROLL
 
-  chatArea.scrollTop = chatArea.scrollHeight;
+  chatArea.scrollTop =
+  chatArea.scrollHeight;
 
-}
+  // ==========================
+  // REPLY BUTTON
+  // ==========================
 
-// ==========================
-// MESSAGE OPTIONS
-// ==========================
+  const replyBtn =
+  message.querySelector(".reply-btn");
 
-function showMessageOptions(text){
+  if(replyBtn){
 
-  const action = prompt(
-    "Type:\nreply\nedit\ndelete"
-  );
+    replyBtn.addEventListener(
+    "click",
+    () => {
 
-  if(action === "reply"){
+      replyTo = data.text;
 
-    replyTo = text;
+      replyBox.classList.remove(
+        "hidden"
+      );
 
-    replyBox.classList.remove("hidden");
+      document.querySelector(
+        ".reply-text"
+      ).innerText =
+      "↩ Replying to " +
+      data.name;
+
+    });
 
   }
 
-  if(action === "edit"){
+  // ==========================
+  // EDIT BUTTON
+  // ==========================
 
-    editOverlay.classList.remove("hidden");
+  const editBtn =
+  message.querySelector(".edit-btn");
 
-    document.getElementById("editInput").value = text;
+  if(editBtn){
+
+    editBtn.addEventListener(
+    "click",
+    () => {
+
+      currentEditText =
+      message.querySelector(
+        ".message-text"
+      );
+
+      editInput.value =
+      currentEditText.innerText;
+
+      editOverlay.classList.remove(
+        "hidden"
+      );
+
+    });
 
   }
 
-  if(action === "delete"){
+  // ==========================
+  // DELETE BUTTON
+  // ==========================
 
-    alert("Delete feature frontend ready 😎");
+  const deleteBtn =
+  message.querySelector(".delete-btn");
+
+  if(deleteBtn){
+
+    deleteBtn.addEventListener(
+    "click",
+    () => {
+
+      message.remove();
+
+    });
 
   }
 
@@ -386,11 +529,15 @@ function showMessageOptions(text){
 // CLOSE REPLY
 // ==========================
 
-closeReply.addEventListener("click", () => {
+closeReply.addEventListener(
+"click",
+() => {
 
   replyTo = null;
 
-  replyBox.classList.add("hidden");
+  replyBox.classList.add(
+    "hidden"
+  );
 
 });
 
@@ -398,9 +545,13 @@ closeReply.addEventListener("click", () => {
 // MENU OPEN
 // ==========================
 
-menuBtn.addEventListener("click", () => {
+menuBtn.addEventListener(
+"click",
+() => {
 
-  menuOverlay.classList.remove("hidden");
+  menuOverlay.classList.remove(
+    "hidden"
+  );
 
 });
 
@@ -408,19 +559,29 @@ menuBtn.addEventListener("click", () => {
 // MENU CLOSE
 // ==========================
 
-closeMenu.addEventListener("click", () => {
+closeMenu.addEventListener(
+"click",
+() => {
 
-  menuOverlay.classList.add("hidden");
+  menuOverlay.classList.add(
+    "hidden"
+  );
 
 });
 
-// CLOSE CLICK OUTSIDE
+// ==========================
+// CLOSE OUTSIDE
+// ==========================
 
-menuOverlay.addEventListener("click", (e) => {
+menuOverlay.addEventListener(
+"click",
+(e) => {
 
   if(e.target === menuOverlay){
 
-    menuOverlay.classList.add("hidden");
+    menuOverlay.classList.add(
+      "hidden"
+    );
 
   }
 
@@ -430,11 +591,19 @@ menuOverlay.addEventListener("click", (e) => {
 // DARK MODE
 // ==========================
 
-themeBtn.addEventListener("click", () => {
+themeBtn.addEventListener(
+"click",
+() => {
 
-  document.body.classList.toggle("light");
+  document.body.classList.toggle(
+    "light"
+  );
 
-  if(document.body.classList.contains("light")){
+  if(
+    document.body.classList.contains(
+      "light"
+    )
+  ){
 
     themeBtn.innerText = "☀️";
 
@@ -452,40 +621,59 @@ themeBtn.addEventListener("click", () => {
 
 let typingTimeout;
 
-messageInput.addEventListener("input", () => {
+messageInput.addEventListener(
+"input",
+() => {
 
-  socket.emit("typing", username);
+  socket.emit(
+    "typing",
+    username
+  );
 
   clearTimeout(typingTimeout);
 
-  typingTimeout = setTimeout(() => {
+  typingTimeout =
+  setTimeout(() => {
 
-    socket.emit("stop-typing");
+    socket.emit(
+      "stop-typing"
+    );
 
-  }, 1000);
+  },1000);
 
 });
 
+// ==========================
 // SHOW TYPING
+// ==========================
 
-socket.on("show-typing", (name) => {
+socket.on(
+"show-typing",
+(name) => {
 
   if(name !== username){
 
-    typingBox.style.display = "flex";
+    typingBox.style.display =
+    "flex";
 
-    typingBox.querySelector("p").innerText =
-      name + " typing...";
+    typingBox.querySelector("p")
+    .innerText =
+    name + " typing...";
 
   }
 
 });
 
+// ==========================
 // HIDE TYPING
+// ==========================
 
-socket.on("hide-typing", () => {
+socket.on(
+"hide-typing",
+() => {
 
-  typingBox.style.display = "none";
+  typingBox.style.display =
+  "none";
 
 });
 
@@ -493,10 +681,14 @@ socket.on("hide-typing", () => {
 // ONLINE USERS
 // ==========================
 
-socket.on("online-users", (count) => {
+socket.on(
+"online-users",
+(count) => {
 
   onlineCount.innerText =
-    "🟢 " + count + " online nearby";
+  "🟢 " +
+  count +
+  " online nearby";
 
 });
 
@@ -504,29 +696,52 @@ socket.on("online-users", (count) => {
 // IMAGE BUTTON
 // ==========================
 
-imageBtn.addEventListener("click", () => {
+imageBtn.addEventListener(
+"click",
+() => {
 
-  alert("Image upload feature ready 📸");
+  alert(
+    "Image upload coming soon 📸"
+  );
 
 });
 
 // ==========================
-// EDIT MODAL
+// EDIT SAVE
 // ==========================
 
-document.querySelector(".cancel-btn")
-.addEventListener("click", () => {
+document.querySelector(
+".save-btn"
+).addEventListener(
+"click",
+() => {
 
-  editOverlay.classList.add("hidden");
+  if(currentEditText){
+
+    currentEditText.innerText =
+    editInput.value;
+
+  }
+
+  editOverlay.classList.add(
+    "hidden"
+  );
 
 });
 
-document.querySelector(".save-btn")
-.addEventListener("click", () => {
+// ==========================
+// EDIT CANCEL
+// ==========================
 
-  alert("Message edited 😎");
+document.querySelector(
+".cancel-btn"
+).addEventListener(
+"click",
+() => {
 
-  editOverlay.classList.add("hidden");
+  editOverlay.classList.add(
+    "hidden"
+  );
 
 });
 
@@ -538,12 +753,16 @@ function getTime(){
 
   const now = new Date();
 
-  let hours = now.getHours();
-  let minutes = now.getMinutes();
+  let hours =
+  now.getHours();
 
-  minutes = minutes < 10
-    ? "0" + minutes
-    : minutes;
+  let minutes =
+  now.getMinutes();
+
+  minutes =
+  minutes < 10
+  ? "0" + minutes
+  : minutes;
 
   return hours + ":" + minutes;
 

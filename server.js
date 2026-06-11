@@ -3,12 +3,15 @@
 // ==========================
 
 const express = require("express");
+
 const http = require("http");
-const { Server } = require("socket.io");
+
 const path = require("path");
 
+const { Server } = require("socket.io");
+
 // ==========================
-// APP SETUP
+// APP
 // ==========================
 
 const app = express();
@@ -27,10 +30,30 @@ const PORT = process.env.PORT || 3000;
 // STATIC FILES
 // ==========================
 
-app.use(express.static(__dirname));
+app.use(
+  express.static(
+    path.join(__dirname, "public")
+  )
+);
 
 // ==========================
-// USERS
+// HOME ROUTE
+// ==========================
+
+app.get("/", (req, res) => {
+
+  res.sendFile(
+    path.join(
+      __dirname,
+      "public",
+      "index.html"
+    )
+  );
+
+});
+
+// ==========================
+// ONLINE USERS
 // ==========================
 
 let onlineUsers = 0;
@@ -41,115 +64,159 @@ let onlineUsers = 0;
 
 io.on("connection", (socket) => {
 
-  console.log("User Connected:", socket.id);
+  console.log(
+    "User Connected:",
+    socket.id
+  );
 
   // ==========================
   // JOIN USER
   // ==========================
 
-  socket.on("join-user", (userData) => {
+  socket.on(
+    "join-user",
+    (userData) => {
 
-    socket.username = userData.name;
+      socket.username =
+      userData.name;
 
-    socket.userColor = userData.color;
+      socket.userColor =
+      userData.color;
 
-    onlineUsers++;
+      onlineUsers++;
 
-    // SEND ONLINE COUNT
+      // SEND ONLINE COUNT
 
-    io.emit("online-users", onlineUsers);
+      io.emit(
+        "online-users",
+        onlineUsers
+      );
 
-    // JOIN MESSAGE
+      // JOIN MESSAGE
 
-    io.emit("receive-message", {
+      io.emit(
+        "receive-message",
+        {
 
-      name: "System",
-      color: "#00c896",
-      text: `${userData.name} joined the chat 🚀`,
-      time: getTime()
+          name: "System",
 
-    });
+          color: "#00c896",
 
-    console.log(userData.name + " joined");
+          text:
+          `${userData.name} joined the chat 🚀`,
 
-  });
+          time: getTime()
+
+        }
+      );
+
+      console.log(
+        userData.name +
+        " joined chat"
+      );
+
+    }
+  );
 
   // ==========================
   // SEND MESSAGE
   // ==========================
 
-  socket.on("send-message", (data) => {
+  socket.on(
+    "send-message",
+    (data) => {
 
-    io.emit("receive-message", data);
+      io.emit(
+        "receive-message",
+        data
+      );
 
-  });
+    }
+  );
 
   // ==========================
   // TYPING
   // ==========================
 
-  socket.on("typing", (name) => {
+  socket.on(
+    "typing",
+    (name) => {
 
-    socket.broadcast.emit("show-typing", name);
+      socket.broadcast.emit(
+        "show-typing",
+        name
+      );
 
-  });
+    }
+  );
 
   // ==========================
   // STOP TYPING
   // ==========================
 
-  socket.on("stop-typing", () => {
+  socket.on(
+    "stop-typing",
+    () => {
 
-    socket.broadcast.emit("hide-typing");
+      socket.broadcast.emit(
+        "hide-typing"
+      );
 
-  });
+    }
+  );
 
   // ==========================
   // DISCONNECT
   // ==========================
 
-  socket.on("disconnect", () => {
+  socket.on(
+    "disconnect",
+    () => {
 
-    if(socket.username){
+      if(socket.username){
 
-      onlineUsers--;
+        onlineUsers--;
 
-      if(onlineUsers < 0){
+        if(onlineUsers < 0){
 
-        onlineUsers = 0;
+          onlineUsers = 0;
+
+        }
+
+        // UPDATE ONLINE
+
+        io.emit(
+          "online-users",
+          onlineUsers
+        );
+
+        // LEAVE MESSAGE
+
+        io.emit(
+          "receive-message",
+          {
+
+            name: "System",
+
+            color: "#ff4d6d",
+
+            text:
+            `${socket.username} left the chat 👋`,
+
+            time: getTime()
+
+          }
+        );
+
+        console.log(
+          socket.username +
+          " disconnected"
+        );
 
       }
 
-      // UPDATE ONLINE
-
-      io.emit("online-users", onlineUsers);
-
-      // LEAVE MESSAGE
-
-      io.emit("receive-message", {
-
-        name: "System",
-        color: "#ff4d6d",
-        text: `${socket.username} left the chat 👋`,
-        time: getTime()
-
-      });
-
-      console.log(socket.username + " disconnected");
-
     }
-
-  });
-
-});
-
-// ==========================
-// HOME ROUTE
-// ==========================
-
-app.get("/", (req, res) => {
-
-  res.sendFile(path.join(__dirname, "index.html"));
+  );
 
 });
 
@@ -161,29 +228,32 @@ function getTime(){
 
   const now = new Date();
 
-  let hours = now.getHours();
+  let hours =
+  now.getHours();
 
-  let minutes = now.getMinutes();
+  let minutes =
+  now.getMinutes();
 
-  minutes = minutes < 10
-    ? "0" + minutes
-    : minutes;
+  minutes =
+  minutes < 10
+  ? "0" + minutes
+  : minutes;
 
   return hours + ":" + minutes;
 
 }
 
 // ==========================
-// START SERVER
+// SERVER START
 // ==========================
 
 server.listen(PORT, () => {
 
   console.log(`
-=================================
+======================================
 🚀 Nearby Chat Server Running
 🌐 http://localhost:${PORT}
-=================================
+======================================
   `);
 
 });

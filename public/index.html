@@ -1,175 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
   <title>Nearby Chat</title>
 
   <link rel="stylesheet" href="style.css">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect"
+    href="https://fonts.googleapis.com">
+
+  <link rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
 </head>
 
 <body>
 
   <!-- BACKGROUND -->
+
   <div class="bg-blur blur1"></div>
   <div class="bg-blur blur2"></div>
 
-  <!-- PROFILE SETUP -->
-  <div class="setup-screen active" id="setupScreen">
+  <!-- =========================
+       SETUP SCREEN
+  ========================== -->
+
+  <div class="setup-screen active"
+    id="setupScreen">
 
     <div class="setup-card">
 
-      <h1 class="logo">💬 Nearby Chat</h1>
-      <p class="subtitle">Premium Real-time Chat</p>
+      <h1 class="logo">
+        💬 Nearby Chat
+      </h1>
+
+      <p class="subtitle">
+        Premium Realtime Chat
+      </p>
 
       <!-- AVATAR -->
-      <div class="avatar" id="avatar">
+
+      <div class="avatar"
+        id="avatar">
         A
       </div>
 
       <!-- NAME -->
-      <input 
-        type="text"
+
+      <input type="text"
         id="username"
         placeholder="Enter your name"
-        maxlength="15"
-      >
+        maxlength="15">
 
-      <!-- COLOR PICKER -->
-      <div class="color-title">Choose Color</div>
+      <!-- COLORS -->
+
+      <div class="color-title">
+        Choose Color
+      </div>
 
       <div class="colors">
 
         <div class="color active"
           style="background:#7c5cff"
-          data-color="#7c5cff"></div>
+          data-color="#7c5cff">
+        </div>
 
         <div class="color"
           style="background:#00d2ff"
-          data-color="#00d2ff"></div>
+          data-color="#00d2ff">
+        </div>
 
         <div class="color"
           style="background:#00c896"
-          data-color="#00c896"></div>
+          data-color="#00c896">
+        </div>
 
         <div class="color"
           style="background:#ff4d6d"
-          data-color="#ff4d6d"></div>
+          data-color="#ff4d6d">
+        </div>
 
         <div class="color"
           style="background:#ff9800"
-          data-color="#ff9800"></div>
+          data-color="#ff9800">
+        </div>
 
       </div>
 
-      <!-- START BUTTON -->
+      <!-- BUTTON -->
+
       <button id="startBtn">
         Save & Start Chat 🚀
       </button>
 
     </div>
+
   </div>
 
-  <!-- MAIN CHAT -->
-  <div class="chat-screen" id="chatScreen">
+  <!-- =========================
+       CHAT SCREEN
+  ========================== -->
+
+  <div class="chat-screen"
+    id="chatScreen">
 
     <!-- HEADER -->
+
     <header class="chat-header">
 
       <div class="left">
 
-        <div class="profile-circle" id="myProfile">
+        <div class="profile-circle"
+          id="myProfile">
           A
         </div>
 
         <div>
-          <h2>💬 Nearby Chat</h2>
-          <span id="onlineCount">🟢 0 online nearby</span>
+
+          <h2>
+            💬 Nearby Chat
+          </h2>
+
+          <span id="onlineCount">
+            🟢 0 online nearby
+          </span>
+
         </div>
 
       </div>
 
       <div class="right">
 
-        <button id="themeBtn">🌙</button>
+        <button id="themeBtn">
+          🌙
+        </button>
 
-        <button id="menuBtn">👤</button>
+        <button id="menuBtn">
+          👤
+        </button>
 
       </div>
 
     </header>
 
     <!-- CHAT AREA -->
-    <div class="chat-area" id="chatArea">
+
+    <div class="chat-area"
+      id="chatArea">
 
       <!-- TODAY -->
+
       <div class="today">
         Today
       </div>
 
-      <!-- SAMPLE MESSAGE -->
-      <div class="message other">
-
-        <div class="msg-avatar red">
-          R
-        </div>
-
-        <div class="bubble">
-
-          <h4>Rahul</h4>
-
-          <p>
-            Bhai kya scene hai aaj? 🔥
-          </p>
-
-          <div class="msg-bottom">
-            <span>9:38</span>
-            <div class="reactions">
-              😂 2
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-
-      <!-- YOUR MESSAGE -->
-      <div class="message you">
-
-        <div class="bubble">
-
-          <p>
-            Kuch nahi yaar, chill hai 😎
-          </p>
-
-          <div class="msg-bottom">
-            <span>9:39</span>
-            <span class="ticks">✓✓</span>
-          </div>
-
-        </div>
-
-      </div>
-
       <!-- TYPING -->
-      <div class="typing-box" id="typingBox">
+
+      <div class="typing-box"
+        id="typingBox">
+
         <span></span>
         <span></span>
         <span></span>
 
-        <p>Rahul typing...</p>
+        <p>
+          Rahul typing...
+        </p>
+
       </div>
 
     </div>
 
     <!-- REPLY BOX -->
-    <div class="reply-box hidden" id="replyBox">
+
+    <div class="reply-box hidden"
+      id="replyBox">
 
       <div class="reply-text">
-        ↩ Replying to Rahul
+        ↩ Replying...
       </div>
 
       <button id="closeReply">
@@ -178,18 +196,23 @@
 
     </div>
 
-    <!-- INPUT AREA -->
+    <!-- INPUT -->
+
     <div class="input-area">
+
+      <!-- IMAGE -->
 
       <button class="image-btn">
         📸
       </button>
 
-      <input
-        type="text"
+      <!-- MESSAGE -->
+
+      <input type="text"
         id="messageInput"
-        placeholder="Type a message..."
-      >
+        placeholder="Type a message...">
+
+      <!-- SEND -->
 
       <button id="sendBtn">
         ➤
@@ -199,20 +222,30 @@
 
   </div>
 
-  <!-- FEATURES MENU -->
-  <div class="menu-overlay hidden" id="menuOverlay">
+  <!-- =========================
+       FEATURES MENU
+  ========================== -->
+
+  <div class="menu-overlay hidden"
+    id="menuOverlay">
 
     <div class="feature-menu">
 
+      <!-- TOP -->
+
       <div class="menu-top">
 
-        <h3>✨ Features</h3>
+        <h3>
+          ✨ Features
+        </h3>
 
         <button id="closeMenu">
           ✕
         </button>
 
       </div>
+
+      <!-- FEATURES -->
 
       <div class="feature-list">
 
@@ -229,7 +262,7 @@
         </div>
 
         <div class="feature-item">
-          ↩ Reply to Message
+          ↩ Reply Message
         </div>
 
         <div class="feature-item">
@@ -270,14 +303,21 @@
 
   </div>
 
-  <!-- EDIT MESSAGE MODAL -->
-  <div class="edit-overlay hidden" id="editOverlay">
+  <!-- =========================
+       EDIT MODAL
+  ========================== -->
+
+  <div class="edit-overlay hidden"
+    id="editOverlay">
 
     <div class="edit-modal">
 
-      <h3>✏️ Edit Message</h3>
+      <h3>
+        ✏️ Edit Message
+      </h3>
 
-      <textarea id="editInput">Kuch nahi yaar 😎</textarea>
+      <textarea id="editInput">
+      </textarea>
 
       <div class="edit-buttons">
 
@@ -295,11 +335,16 @@
 
   </div>
 
-  <!-- SOCKET.IO -->
-  <script src="/socket.io/socket.io.js"></script>
+  <!-- SOCKET -->
+
+  <script src="/socket.io/socket.io.js">
+  </script>
 
   <!-- SCRIPT -->
-  <script src="script.js"></script>
+
+  <script src="script.js">
+  </script>
 
 </body>
+
 </html>
