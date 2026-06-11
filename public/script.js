@@ -1,155 +1,119 @@
 const socket = io();
 
-const nameInput =
-document.getElementById("name");
+const messages = document.getElementById("messages");
+const input = document.getElementById("message");
+const nameInput = document.getElementById("name");
+const onlineUsers = document.getElementById("onlineUsers");
 
-const messageInput =
-document.getElementById("message");
+let myName = "";
 
-const messages =
-document.getElementById("messages");
+function sendMessage() {
 
-const onlineCount =
-document.getElementById("online-count");
+    const message = input.value;
 
-/* SAVE NAME */
+    if(message.trim() === "") return;
 
-if(localStorage.getItem("chat-name")){
+    myName = nameInput.value;
 
-    nameInput.value =
-    localStorage.getItem("chat-name");
-
-}
-
-nameInput.addEventListener("input", ()=>{
-
-    localStorage.setItem(
-        "chat-name",
-        nameInput.value
-    );
-
-});
-
-/* SEND MESSAGE */
-
-function sendMessage(){
-
-    const name =
-    nameInput.value.trim();
-
-    const message =
-    messageInput.value.trim();
-
-    if(name === "" || message === ""){
+    if(myName.trim() === "") {
+        alert("Enter your name");
         return;
     }
 
-    socket.emit("send-message", {
+    const data = {
+        id: Date.now(),
+        name: myName,
+        message: message,
+        time: new Date().toLocaleTimeString(),
+        sender: socket.id
+    };
 
-        id:Date.now(),
+    socket.emit("send-message", data);
 
-        name:name,
-
-        message:message
-
-    });
-
-    messageInput.value = "";
-
+    input.value = "";
 }
 
-/* RECEIVE MESSAGE */
+socket.on("receive-message", (data) => {
 
-socket.on("receive-message", (data)=>{
+    const div = document.createElement("div");
 
-    const div =
-    document.createElement("div");
-
-    div.classList.add("message-box");
+    // apna message right side
+    if(data.sender === socket.id){
+        div.classList.add("my-message");
+    } else {
+        div.classList.add("other-message");
+    }
 
     div.id = data.id;
 
-    const myName =
-    localStorage.getItem("chat-name");
+    let editButton = "";
 
-    if(data.name === myName){
-
-        div.classList.add("my-message");
-
+    // sirf apne message pe edit button
+    if(data.sender === socket.id){
+        editButton = `
+            <button onclick="editMessage('${data.id}')">
+                Edit
+            </button>
+        `;
     }
 
-    const time =
-    new Date().toLocaleTimeString();
-
     div.innerHTML = `
-
-        <b>${data.name}</b><br>
-
-        <span class="msg-text">
-            ${data.message}
-        </span>
-
-        <div class="time">
-            ${time}
-        </div>
-
-        <button
-        class="edit-btn"
-        onclick="editMessage('${data.id}')">
-
-            Edit
-
-        </button>
-
+        <h3>${data.name}</h3>
+        <p class="text">${data.message}</p>
+        <small>${data.time}</small>
+        ${editButton}
     `;
 
     messages.appendChild(div);
 
-    messages.scrollTop =
-    messages.scrollHeight;
-
+    messages.scrollTop = messages.scrollHeight;
 });
-
-/* EDIT */
 
 function editMessage(id){
 
-    const box =
-    document.getElementById(id);
+    const box = document.getElementById(id);
 
-    const text =
-    box.querySelector(".msg-text");
+    const textElement = box.querySelector(".text");
 
-    const oldText =
-    text.innerText;
+    const oldText = textElement.innerText;
 
-    const newText =
-    prompt("Edit Message", oldText);
+    const newText = prompt("Edit message", oldText);
 
     if(newText){
 
-        text.innerText = newText;
+        textElement.innerText = newText;
+
+        socket.emit("edit-message", {
+            id: id,
+            newMessage: newText
+        });
 
     }
 
 }
 
-/* ONLINE USERS */
+socket.on("message-edited", (data)=>{
 
-socket.on("online-users", (count)=>{
+    const box = document.getElementById(data.id);
 
-    onlineCount.innerText = count;
+    if(box){
+
+        box.querySelector(".text").innerText = data.newMessage;
+
+    }
 
 });
 
-/* ENTER KEY */
+socket.on("online-users", (count)=>{
 
-messageInput.addEventListener("keypress", (e)=>{
+    onlineUsers.innerText = count;
+
+});
+
+input.addEventListener("keypress", function(e){
 
     if(e.key === "Enter"){
-
         sendMessage();
-
     }
 
 });
