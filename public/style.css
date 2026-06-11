@@ -2,7 +2,7 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial, sans-serif;
+    font-family:Arial,sans-serif;
 }
 
 body{
@@ -10,8 +10,6 @@ body{
     height:100vh;
     overflow:hidden;
 }
-
-/* MAIN CHAT */
 
 .chat-container{
     width:100%;
@@ -30,27 +28,25 @@ body{
     background:#1a2c3d;
     padding:20px;
     text-align:center;
-    flex-shrink:0;
 }
 
 .top h1{
     color:white;
-    font-size:42px;
+    font-size:40px;
     margin-bottom:10px;
 }
 
 .online{
     color:#00ff99;
-    font-size:24px;
+    font-size:22px;
     font-weight:bold;
 }
 
-/* NAME BOX */
+/* NAME */
 
 .name-box{
     padding:10px;
     background:#102131;
-    flex-shrink:0;
 }
 
 .name-box input{
@@ -62,7 +58,7 @@ body{
     outline:none;
 }
 
-/* MESSAGE AREA */
+/* MESSAGES */
 
 #messages{
     flex:1;
@@ -70,30 +66,49 @@ body{
     padding:15px;
     display:flex;
     flex-direction:column;
-    gap:10px;
+    gap:12px;
 }
 
-/* MESSAGE */
+/* MESSAGE BOX */
 
 .message-box{
     background:#203547;
     color:white;
     padding:12px;
-    border-radius:12px;
+    border-radius:14px;
     width:fit-content;
     max-width:80%;
     word-wrap:break-word;
 }
 
 .message-box b{
-    color:#00ffcc;
-    font-size:17px;
+    color:#00ffd0;
+    font-size:18px;
 }
 
 .time{
+    margin-top:6px;
     font-size:12px;
     color:#bbb;
-    margin-top:5px;
+}
+
+/* MY MESSAGE */
+
+.my-message{
+    margin-left:auto;
+    background:#007bff;
+}
+
+/* EDIT BUTTON */
+
+.edit-btn{
+    margin-top:8px;
+    padding:5px 10px;
+    border:none;
+    border-radius:8px;
+    background:#00c896;
+    color:white;
+    cursor:pointer;
 }
 
 /* BOTTOM */
@@ -103,7 +118,6 @@ body{
     gap:10px;
     padding:10px;
     background:#102131;
-    flex-shrink:0;
 }
 
 .bottom input{
@@ -125,17 +139,9 @@ body{
     cursor:pointer;
 }
 
-.bottom button:hover{
-    background:#00a97f;
-}
-
 /* MOBILE */
 
 @media(max-width:600px){
-
-    .top{
-        padding:15px;
-    }
 
     .top h1{
         font-size:28px;
@@ -145,27 +151,9 @@ body{
         font-size:18px;
     }
 
-    .name-box{
-        padding:8px;
-    }
-
     .name-box input{
         font-size:16px;
         padding:12px;
-    }
-
-    #messages{
-        padding:10px;
-    }
-
-    .message-box{
-        max-width:90%;
-        font-size:15px;
-    }
-
-    .bottom{
-        padding:8px;
-        gap:8px;
     }
 
     .bottom input{
@@ -174,8 +162,8 @@ body{
     }
 
     .bottom button{
-        width:75px;
-        font-size:15px;
+        width:80px;
+        font-size:16px;
     }
 
 }

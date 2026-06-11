@@ -21,8 +21,6 @@ if(localStorage.getItem("chat-name")){
 
 }
 
-/* SAVE WHILE TYPING */
-
 nameInput.addEventListener("input", ()=>{
 
     localStorage.setItem(
@@ -48,6 +46,8 @@ function sendMessage(){
 
     socket.emit("send-message", {
 
+        id:Date.now(),
+
         name:name,
 
         message:message
@@ -67,6 +67,17 @@ socket.on("receive-message", (data)=>{
 
     div.classList.add("message-box");
 
+    div.id = data.id;
+
+    const myName =
+    localStorage.getItem("chat-name");
+
+    if(data.name === myName){
+
+        div.classList.add("my-message");
+
+    }
+
     const time =
     new Date().toLocaleTimeString();
 
@@ -74,11 +85,21 @@ socket.on("receive-message", (data)=>{
 
         <b>${data.name}</b><br>
 
-        ${data.message}
+        <span class="msg-text">
+            ${data.message}
+        </span>
 
         <div class="time">
             ${time}
         </div>
+
+        <button
+        class="edit-btn"
+        onclick="editMessage('${data.id}')">
+
+            Edit
+
+        </button>
 
     `;
 
@@ -88,6 +109,30 @@ socket.on("receive-message", (data)=>{
     messages.scrollHeight;
 
 });
+
+/* EDIT */
+
+function editMessage(id){
+
+    const box =
+    document.getElementById(id);
+
+    const text =
+    box.querySelector(".msg-text");
+
+    const oldText =
+    text.innerText;
+
+    const newText =
+    prompt("Edit Message", oldText);
+
+    if(newText){
+
+        text.innerText = newText;
+
+    }
+
+}
 
 /* ONLINE USERS */
 

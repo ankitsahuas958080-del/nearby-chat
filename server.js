@@ -1,42 +1,37 @@
 const express = require("express");
-
 const app = express();
 
 const http = require("http").createServer(app);
 
 const io = require("socket.io")(http);
 
-/* PUBLIC FOLDER */
-
 app.use(express.static("public"));
-
-/* ONLINE USERS */
 
 let onlineUsers = 0;
 
-/* SOCKET CONNECTION */
-
 io.on("connection", (socket) => {
 
-    console.log("User Connected");
-
+    // user connected
     onlineUsers++;
 
     io.emit("online-users", onlineUsers);
 
-    /* RECEIVE MESSAGE */
-
+    // send message
     socket.on("send-message", (data) => {
 
         io.emit("receive-message", data);
 
     });
 
-    /* DISCONNECT */
+    // edit message
+    socket.on("edit-message", (data) => {
 
+        io.emit("message-edited", data);
+
+    });
+
+    // disconnect
     socket.on("disconnect", () => {
-
-        console.log("User Disconnected");
 
         onlineUsers--;
 
@@ -46,10 +41,8 @@ io.on("connection", (socket) => {
 
 });
 
-/* SERVER START */
+http.listen(3000, "0.0.0.0", () => {
 
-http.listen(process.env.PORT || 3000, "0.0.0.0", () => {
-
-    console.log("Server Running");
+    console.log("Running");
 
 });
