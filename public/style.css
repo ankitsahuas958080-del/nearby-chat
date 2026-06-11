@@ -2,13 +2,12 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,sans-serif;
+    font-family:Arial;
 }
 
 body{
-    background:#00111f;
+    background:#001524;
     height:100vh;
-    overflow:hidden;
 }
 
 .chat-container{
@@ -16,51 +15,44 @@ body{
     max-width:700px;
     height:100vh;
     margin:auto;
-    background:#02192b;
     display:flex;
     flex-direction:column;
-    overflow:hidden;
+    background:#001524;
 }
 
-/* TOP */
-
 .top{
-    background:#1a2c3d;
+    background:#1b3146;
     padding:20px;
     text-align:center;
+    color:white;
 }
 
 .top h1{
-    color:white;
     font-size:40px;
-    margin-bottom:10px;
 }
 
 .online{
     color:#00ff99;
-    font-size:22px;
+    margin-top:10px;
+    font-size:28px;
     font-weight:bold;
 }
 
-/* NAME */
-
 .name-box{
-    padding:10px;
-    background:#102131;
+    padding:12px;
+    background:#082032;
 }
 
 .name-box input{
     width:100%;
-    padding:14px;
+    padding:16px;
     border:none;
-    border-radius:12px;
-    font-size:18px;
+    border-radius:18px;
+    font-size:20px;
     outline:none;
 }
 
-/* MESSAGES */
-
-#messages{
+.messages{
     flex:1;
     overflow-y:auto;
     padding:15px;
@@ -69,77 +61,75 @@ body{
     gap:12px;
 }
 
-/* MESSAGE BOX */
-
-.message-box{
-    background:#203547;
-    color:white;
-    padding:12px;
-    border-radius:14px;
-    width:fit-content;
-    max-width:80%;
+.my-message,
+.other-message{
+    max-width:75%;
+    padding:14px;
+    border-radius:18px;
     word-wrap:break-word;
 }
 
-.message-box b{
-    color:#00ffd0;
-    font-size:18px;
-}
-
-.time{
-    margin-top:6px;
-    font-size:12px;
-    color:#bbb;
-}
-
-/* MY MESSAGE */
-
 .my-message{
-    margin-left:auto;
-    background:#007bff;
+    background:#0d6efd;
+    color:white;
+    align-self:flex-end;
 }
 
-/* EDIT BUTTON */
+.other-message{
+    background:#20364b;
+    color:white;
+    align-self:flex-start;
+}
 
-.edit-btn{
+.my-message h3,
+.other-message h3{
+    color:#00ffcc;
+    margin-bottom:5px;
+}
+
+.my-message small,
+.other-message small{
+    display:block;
     margin-top:8px;
-    padding:5px 10px;
+    opacity:0.8;
+}
+
+.my-message button{
+    margin-top:10px;
+    padding:7px 14px;
     border:none;
-    border-radius:8px;
-    background:#00c896;
+    border-radius:10px;
+    background:#00d084;
     color:white;
     cursor:pointer;
+    font-size:15px;
 }
-
-/* BOTTOM */
 
 .bottom{
     display:flex;
     gap:10px;
-    padding:10px;
-    background:#102131;
+    padding:12px;
+    background:#082032;
 }
 
 .bottom input{
     flex:1;
-    padding:14px;
+    padding:16px;
     border:none;
-    border-radius:12px;
-    font-size:17px;
+    border-radius:18px;
+    font-size:20px;
     outline:none;
 }
 
 .bottom button{
-    width:90px;
+    padding:16px 24px;
     border:none;
-    border-radius:12px;
-    background:#00c896;
+    border-radius:18px;
+    background:#00d084;
     color:white;
-    font-size:18px;
+    font-size:20px;
     cursor:pointer;
 }
-
-/* MOBILE */
 
 @media(max-width:600px){
 
@@ -148,22 +138,21 @@ body{
     }
 
     .online{
-        font-size:18px;
-    }
-
-    .name-box input{
-        font-size:16px;
-        padding:12px;
+        font-size:22px;
     }
 
     .bottom input{
-        font-size:15px;
-        padding:12px;
+        font-size:18px;
     }
 
     .bottom button{
-        width:80px;
-        font-size:16px;
+        font-size:18px;
+        padding:14px 18px;
+    }
+
+    .my-message,
+    .other-message{
+        max-width:85%;
     }
 
 }
