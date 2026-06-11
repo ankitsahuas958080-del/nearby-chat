@@ -1,64 +1,305 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nearby Chat</title>
 
-    <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Nearby Chat</title>
-
-    <link rel="stylesheet" href="style.css">
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-    <div class="chat-container">
+  <!-- BACKGROUND -->
+  <div class="bg-blur blur1"></div>
+  <div class="bg-blur blur2"></div>
 
-        <div class="top">
+  <!-- PROFILE SETUP -->
+  <div class="setup-screen active" id="setupScreen">
 
-            <h1>💬 Nearby Chat</h1>
+    <div class="setup-card">
 
-            <div class="online">
-                🟢 Online Users:
-                <span id="onlineUsers">0</span>
+      <h1 class="logo">💬 Nearby Chat</h1>
+      <p class="subtitle">Premium Real-time Chat</p>
+
+      <!-- AVATAR -->
+      <div class="avatar" id="avatar">
+        A
+      </div>
+
+      <!-- NAME -->
+      <input 
+        type="text"
+        id="username"
+        placeholder="Enter your name"
+        maxlength="15"
+      >
+
+      <!-- COLOR PICKER -->
+      <div class="color-title">Choose Color</div>
+
+      <div class="colors">
+
+        <div class="color active"
+          style="background:#7c5cff"
+          data-color="#7c5cff"></div>
+
+        <div class="color"
+          style="background:#00d2ff"
+          data-color="#00d2ff"></div>
+
+        <div class="color"
+          style="background:#00c896"
+          data-color="#00c896"></div>
+
+        <div class="color"
+          style="background:#ff4d6d"
+          data-color="#ff4d6d"></div>
+
+        <div class="color"
+          style="background:#ff9800"
+          data-color="#ff9800"></div>
+
+      </div>
+
+      <!-- START BUTTON -->
+      <button id="startBtn">
+        Save & Start Chat 🚀
+      </button>
+
+    </div>
+  </div>
+
+  <!-- MAIN CHAT -->
+  <div class="chat-screen" id="chatScreen">
+
+    <!-- HEADER -->
+    <header class="chat-header">
+
+      <div class="left">
+
+        <div class="profile-circle" id="myProfile">
+          A
+        </div>
+
+        <div>
+          <h2>💬 Nearby Chat</h2>
+          <span id="onlineCount">🟢 0 online nearby</span>
+        </div>
+
+      </div>
+
+      <div class="right">
+
+        <button id="themeBtn">🌙</button>
+
+        <button id="menuBtn">👤</button>
+
+      </div>
+
+    </header>
+
+    <!-- CHAT AREA -->
+    <div class="chat-area" id="chatArea">
+
+      <!-- TODAY -->
+      <div class="today">
+        Today
+      </div>
+
+      <!-- SAMPLE MESSAGE -->
+      <div class="message other">
+
+        <div class="msg-avatar red">
+          R
+        </div>
+
+        <div class="bubble">
+
+          <h4>Rahul</h4>
+
+          <p>
+            Bhai kya scene hai aaj? 🔥
+          </p>
+
+          <div class="msg-bottom">
+            <span>9:38</span>
+            <div class="reactions">
+              😂 2
             </div>
+          </div>
 
         </div>
 
-        <div id="messages"></div>
+      </div>
 
-        <div class="bottom">
+      <!-- YOUR MESSAGE -->
+      <div class="message you">
 
-            <input
-                type="text"
-                id="name"
-                placeholder="Enter Your Name"
-            >
+        <div class="bubble">
 
-            <div class="send-area">
+          <p>
+            Kuch nahi yaar, chill hai 😎
+          </p>
 
-                <input
-                    type="text"
-                    id="message"
-                    placeholder="Type Message"
-                >
-
-                <button onclick="sendMessage()">
-                    Send
-                </button>
-
-            </div>
+          <div class="msg-bottom">
+            <span>9:39</span>
+            <span class="ticks">✓✓</span>
+          </div>
 
         </div>
+
+      </div>
+
+      <!-- TYPING -->
+      <div class="typing-box" id="typingBox">
+        <span></span>
+        <span></span>
+        <span></span>
+
+        <p>Rahul typing...</p>
+      </div>
 
     </div>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="script.js"></script>
+    <!-- REPLY BOX -->
+    <div class="reply-box hidden" id="replyBox">
+
+      <div class="reply-text">
+        ↩ Replying to Rahul
+      </div>
+
+      <button id="closeReply">
+        ✕
+      </button>
+
+    </div>
+
+    <!-- INPUT AREA -->
+    <div class="input-area">
+
+      <button class="image-btn">
+        📸
+      </button>
+
+      <input
+        type="text"
+        id="messageInput"
+        placeholder="Type a message..."
+      >
+
+      <button id="sendBtn">
+        ➤
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- FEATURES MENU -->
+  <div class="menu-overlay hidden" id="menuOverlay">
+
+    <div class="feature-menu">
+
+      <div class="menu-top">
+
+        <h3>✨ Features</h3>
+
+        <button id="closeMenu">
+          ✕
+        </button>
+
+      </div>
+
+      <div class="feature-list">
+
+        <div class="feature-item">
+          👤 Profile & Avatar
+        </div>
+
+        <div class="feature-item">
+          ✏️ Edit Message
+        </div>
+
+        <div class="feature-item">
+          🗑 Delete Message
+        </div>
+
+        <div class="feature-item">
+          ↩ Reply to Message
+        </div>
+
+        <div class="feature-item">
+          📸 Image Share
+        </div>
+
+        <div class="feature-item">
+          👀 Typing Indicator
+        </div>
+
+        <div class="feature-item">
+          🔔 Notifications
+        </div>
+
+        <div class="feature-item">
+          🔊 Message Sound
+        </div>
+
+        <div class="feature-item">
+          🌙 Dark / Light Mode
+        </div>
+
+        <div class="feature-item">
+          ✓✓ Message Ticks
+        </div>
+
+        <div class="feature-item">
+          😂 Reactions
+        </div>
+
+        <div class="feature-item">
+          🟢 Online Count
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- EDIT MESSAGE MODAL -->
+  <div class="edit-overlay hidden" id="editOverlay">
+
+    <div class="edit-modal">
+
+      <h3>✏️ Edit Message</h3>
+
+      <textarea id="editInput">Kuch nahi yaar 😎</textarea>
+
+      <div class="edit-buttons">
+
+        <button class="cancel-btn">
+          Cancel
+        </button>
+
+        <button class="save-btn">
+          Save ✓
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- SOCKET.IO -->
+  <script src="/socket.io/socket.io.js"></script>
+
+  <!-- SCRIPT -->
+  <script src="script.js"></script>
 
 </body>
 </html>
