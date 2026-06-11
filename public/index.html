@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
 
     <meta name="viewport"
-    content="width=device-width, initial-scale=1.0">
+          content="width=device-width, initial-scale=1.0">
 
     <title>Nearby Chat</title>
 
@@ -18,57 +18,47 @@
 
     <div class="chat-container">
 
-        <!-- TOP -->
-
         <div class="top">
 
             <h1>💬 Nearby Chat</h1>
 
             <div class="online">
-
                 🟢 Online Users:
-                <span id="online-count">0</span>
-
+                <span id="onlineUsers">0</span>
             </div>
 
         </div>
 
-        <!-- NAME -->
-
-        <div class="name-box">
-
-            <input
-            type="text"
-            id="name"
-            placeholder="Enter Your Name">
-
-        </div>
-
-        <!-- MESSAGES -->
-
         <div id="messages"></div>
-
-        <!-- BOTTOM -->
 
         <div class="bottom">
 
             <input
-            type="text"
-            id="message"
-            placeholder="Type Message">
+                type="text"
+                id="name"
+                placeholder="Enter Your Name"
+            >
 
-            <button onclick="sendMessage()">
-                Send
-            </button>
+            <div class="send-area">
+
+                <input
+                    type="text"
+                    id="message"
+                    placeholder="Type Message"
+                >
+
+                <button onclick="sendMessage()">
+                    Send
+                </button>
+
+            </div>
 
         </div>
 
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
-
     <script src="script.js"></script>
 
 </body>
-
 </html>
